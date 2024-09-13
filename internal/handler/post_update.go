@@ -40,7 +40,7 @@ func (ph *PostHandler) UpdatePostPage(c *gin.Context) {
 	}
 
 	c.HTML(http.StatusOK, "post_update.tmpl", gin.H{
-		"title": "메뉴 수정하기",
+		"title": "게시글 수정하기",
 		"post":  convertFromDomainPost(&post),
 	})
 }
@@ -55,17 +55,8 @@ func (ph *PostHandler) UpdatePost(c *gin.Context) {
 		Content: c.PostForm("content"),
 	}
 
-	post, err := p.convertToDomain()
-	if err != nil {
-		c.HTML(http.StatusInternalServerError, "error.tmpl", gin.H{
-			"code":    http.StatusBadRequest,
-			"message": "게시글 도메인 변환 실패",
-			"err_msg": err.Error(),
-		})
-		return
-	}
-
-	if err = ph.repo.UpdatePost(ctx, post); err != nil {
+	post := p.convertToDomain()
+	if err := ph.repo.UpdatePost(ctx, post); err != nil {
 		c.HTML(http.StatusInternalServerError, "error.tmpl", gin.H{
 			"code":    http.StatusInternalServerError,
 			"message": "게시글 수정 실패",
@@ -73,5 +64,5 @@ func (ph *PostHandler) UpdatePost(c *gin.Context) {
 		})
 		return
 	}
-	c.Redirect(http.StatusFound, "/")
+	c.Redirect(http.StatusSeeOther, "/")
 }

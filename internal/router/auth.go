@@ -33,7 +33,6 @@ func AuthMiddleware(ua *auth.UserAuth) gin.HandlerFunc {
 		}
 
 		c.Set("user", claims)
-
 		c.Next()
 	}
 }

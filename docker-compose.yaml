@@ -1,23 +1,43 @@
-version: '3'
+version: "3"
 
 services:
-  mysql:
-    container_name: onycom-mysql
-    image: mysql:latest
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: onycom
-      MYSQL_PASSWORD: 1234
-    ports:
-      - "3306:3306"
-    networks:
-      - onycom-network
-    healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      interval: 1m
-      timeout: 10s
-      retries: 3
+   ony:
+      build:
+         context: .
+         dockerfile: Dockerfile
+      ports:
+         - "8080:8080"
+      depends_on:
+         - mysql
+      environment:
+         MYSQL_USERNAME: root
+         MYSQL_PASSWORD: 1234
+         MYSQL_HOST: mysql
+         MYSQL_PORT: 3306
+         MYSQL_DB: onycom
+         JWT_SECRET_KEY: JWTSecretKey
+         JWT_EXPIRED_MINUTE: 10
+      networks:
+         - onycom-network
+   mysql:
+      container_name: onycom-mysql
+      image: mysql:latest
+      restart: always
+      environment:
+         MYSQL_ROOT_PASSWORD: 1234
+         MYSQL_DATABASE: onycom
+         MYSQL_PASSWORD: 1234
+      ports:
+         - "3306:3306"
+      networks:
+         - onycom-network
+      volumes:
+         - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      healthcheck:
+         test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+         interval: 1m
+         timeout: 10s
+         retries: 3
 
 networks:
-  onycom-network:
+   onycom-network:

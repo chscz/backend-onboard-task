@@ -17,7 +17,7 @@ type Post struct {
 	UserName  string
 }
 
-func (p Post) convertToDomain() (*domain.Post, error) {
+func (p Post) convertToDomain() *domain.Post {
 	createdAt, _ := time.Parse("2006-01-02 15:04:05", p.CreatedAt)
 	updatedAt, _ := time.Parse("2006-01-02 15:04:05", p.UpdatedAt)
 	return &domain.Post{
@@ -28,7 +28,7 @@ func (p Post) convertToDomain() (*domain.Post, error) {
 		Title:     p.Title,
 		Content:   p.Content,
 		ViewCount: p.ViewCount,
-	}, nil
+	}
 }
 
 func convertFromDomainPostList(posts []*domain.Post) []*Post {

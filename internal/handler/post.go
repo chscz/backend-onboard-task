@@ -15,6 +15,12 @@ const (
 	pageModePrev
 )
 
+const (
+	ErrNoToken        = "JWT 토큰이 없음"
+	ErrInvalidToken   = "토큰이 유효하지 않음"
+	ErrPostCreateFail = "게시글 작성 실패"
+)
+
 type PostHandler struct {
 	repo PostRepository
 	auth *auth.UserAuth

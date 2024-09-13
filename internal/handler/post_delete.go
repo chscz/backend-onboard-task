@@ -9,12 +9,11 @@ import (
 )
 
 func (ph *PostHandler) DeletePost(c *gin.Context) {
-	defer c.Redirect(http.StatusFound, "/")
+	defer c.Redirect(http.StatusSeeOther, "/")
 
 	ctx := context.Background()
 
 	id, _ := strconv.Atoi(c.Param("id"))
-
 	post, err := ph.repo.GetPost(ctx, id)
 	if err != nil {
 		c.HTML(http.StatusInternalServerError, "error.tmpl", gin.H{
@@ -39,6 +38,7 @@ func (ph *PostHandler) DeletePost(c *gin.Context) {
 			"code":    http.StatusUnauthorized,
 			"message": "작성자와 불일치",
 		})
+		return
 	}
 
 	if err := ph.repo.DeletePost(ctx, id); err != nil {

@@ -43,6 +43,7 @@ func (uh *UserHandler) Login(c *gin.Context) {
 		c.Redirect(http.StatusFound, "/login?message=서버 내부 에러")
 		return
 	}
+
 	// 비밀번호 검사
 	if !uh.Auth.CheckPasswordHash(user.Password, password) {
 		c.Redirect(http.StatusFound, "/login?message=비밀번호 불일치")
@@ -55,9 +56,9 @@ func (uh *UserHandler) Login(c *gin.Context) {
 		c.Redirect(http.StatusFound, "/login?message=토큰 발행 오류")
 		return
 	}
+
 	// 쿠키 생성
 	cookie, err := c.Cookie("access-token")
-
 	if err != nil {
 		cookie = "NotSet"
 		c.SetCookie(

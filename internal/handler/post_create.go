@@ -20,6 +20,14 @@ func (ph *PostHandler) CreatePost(c *gin.Context) {
 	title := c.PostForm("title")
 	content := c.PostForm("content")
 
+	if title == "" || content == "" {
+		c.HTML(http.StatusBadRequest, "error.tmpl", gin.H{
+			"code":    http.StatusBadRequest,
+			"message": "제목과 내용을 모두 입력하세요",
+		})
+		return
+	}
+
 	tokenString, err := c.Cookie("access-token")
 	if err != nil {
 		c.HTML(http.StatusUnauthorized, "error.tmpl", gin.H{

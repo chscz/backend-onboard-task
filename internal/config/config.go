@@ -31,7 +31,7 @@ func LoadFromEnv() (Config, error) {
 			SecretKey:     "",
 			ExpiredMinute: 1,
 		},
-		LocalDebugMode: true,
+		LocalDebugMode: false,
 	}
 
 	_ = godotenv.Load(".env")

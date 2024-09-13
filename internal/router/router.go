@@ -14,6 +14,11 @@ func InitRouter(uh *handler.UserHandler, ph *handler.PostHandler, localDebugMode
 		r.LoadHTMLGlob("/app/templates/*")
 	}
 
+	// templateDir := os.Getenv("TEMPLATE_DIR")
+	// if templateDir == "" {
+	// 	templateDir = "templates/*"
+	// }
+
 	r.Use(AuthMiddleware(uh.Auth))
 
 	r.GET("/", ph.GetPosts)
