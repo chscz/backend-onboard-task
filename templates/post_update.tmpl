@@ -1,0 +1,41 @@
+<html>
+   <body>
+      <h1>{{ .title}}</h1>
+
+      <form action="/" method="get">
+            <button type="submit">처음으로</button>
+      </form>
+      <form action="/logout" method="post">
+            <button type="submit">로그아웃</button>
+      </form>
+
+      <form action="/post/update/{{ .post.ID }}" method="post">
+            <div>
+               <label>작성일: {{ .post.CreatedAt }}</label>
+            </div>
+            <div>
+               <label>최근수정일: {{ .post.UpdatedAt }}</label>
+            </div>
+            <div>
+               <label>작성자: {{ .post.UserName }}</label>
+            </div>
+            <div>
+               <label for="title">제목:</label>
+               <input type="text" id="title" name="title" value="{{ .post.Title}}" required>
+            </div>
+            <div>
+               <label for="content">내용:</label>
+               <textarea id="content" name="content" required>{{ .post.Content}}</textarea>
+            </div>                        
+         <button type="submit">수정</button>
+         <button type="button" onclick="cancel()">취소</button>
+      </form>
+
+      <script>
+         function cancel() {
+               window.location.href = "/";
+         }
+      </script>
+      <br><br>
+   </body>
+</html>

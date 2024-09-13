@@ -1,0 +1,24 @@
+<html>
+   <body>
+      <h1>{{ .title}}</h1>
+      <form action="/" method="get">
+            <button type="submit">처음으로</button>
+      </form>
+      <form action="/logout" method="post">
+            <button type="submit">로그아웃</button>
+      </form>
+
+      <ul>
+            <li>작성일: {{ .post.CreatedAt }}</li>
+            <li>최근수정일: {{ .post.UpdatedAt }}</li>
+            <li>작성자: {{ .post.UserName }}</li>
+            <li>제목: {{ .post.Title }}</li>
+            <li>내용: {{ .post.Content }}</li>
+            <li>조회수: {{ .post.ViewCount }}</li>
+      </ul>
+
+      <button onclick="location.href='/post/update/{{ .post.ID }}'">수정</button>
+      <button onclick="location.href='/post/delete/{{ .post.ID }}'">삭제</button>
+      <br><br>
+   </body>
+</html>

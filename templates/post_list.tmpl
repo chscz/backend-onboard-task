@@ -1,0 +1,54 @@
+<html>
+   <body>
+      <h1>{{ .title }}</h1>
+         <form action="/" method="get">
+            <button type="submit">처음으로</button>
+         </form>
+         <form action="/logout" method="post">
+            <button type="submit">로그아웃</button>
+         </form>
+
+         <form action="/post/create" method="get">
+            <button type="submit">생성</button>
+         </form>
+
+         <table border="1">
+            <tr>
+               <th>작성일</th>
+               <th>제목</th>
+               <th>작성자</th>
+               <th></th>
+            </tr>
+            {{ range .posts }}
+               <tr>
+                  <td>{{ .CreatedAt }}</td>
+                  <td><a href="/post/detail/{{ .ID }}">{{ .Title }}</td>
+                  <td>{{ .UserName }}</td>
+                  <td>
+                        <a href="/post/update/{{ .ID }}">수정</a>
+                        <a href="/post/delete/{{ .ID }}">삭제</a>
+                  </td>
+               </tr>
+            {{ end }}
+      </table>
+
+      <div>
+            <form action="/" method="get">
+               <input type="hidden" name="page" value="{{ .prevPage }}">
+               <input type="hidden" name="mode" value="prev">
+               <input type="hidden" name="cursor" value="{{ .firstItemID }}">
+               <button type="submit" {{ if le .currentPage 1 }}disabled{{ end }}>이전 페이지</button>
+            </form>
+
+            <span>현재 페이지: {{ .currentPage }} / 총 페이지: {{ .totalPages }} / 총 게시글: {{ .totalPostCount }}</span>
+
+            <form action="/" method="get">
+               <input type="hidden" name="page" value="{{ .nextPage }}">
+               <input type="hidden" name="mode" value="next">
+               <input type="hidden" name="cursor" value="{{ .lastItemID }}">
+               <button type="submit" {{ if ge .currentPage .totalPages }}disabled{{ end }}>다음 페이지</button>
+            </form>
+      </div>
+      <br><br>
+   </body>
+</html>
